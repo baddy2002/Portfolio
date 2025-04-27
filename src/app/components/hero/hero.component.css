@@ -1,0 +1,36 @@
+.loader-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #0f0f0f; /* opaco ma non del tutto nero */
+}
+
+.canvas-loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #B2FFEB; /* verde acqua chiaro */
+  border-top: 4px solid #26A69A; /* verde acqua più intenso */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loader-text {
+  font-size: 14px;
+  color: #B2FFEB;
+  font-weight: bold;
+  margin-top: 40px;
+  letter-spacing: 1px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

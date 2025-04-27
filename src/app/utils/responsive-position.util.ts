@@ -1,0 +1,196 @@
+import {objectThreePosition} from '../models/types/objectThreePosition';
+import {Group} from 'three';
+import * as THREE from 'three';
+import {EventEmitter} from '@angular/core';
+
+export function getHackerRoomModelResponsivePosition(width: number): objectThreePosition {
+  if (width <= 230) {
+    return {
+      position: { x: 1, y: -5, z: 0 },
+      rotation: { x: 0, y: -0.1 * Math.PI, z: 0 },
+      scale: { x: 3, y: 3, z: 3 },
+    };
+  }
+
+  if (width <= 300) {
+    return {
+      position: { x: 1, y: -10, z: 0 },
+      rotation: { x: 0, y: -0.1 * Math.PI, z: 0 },
+      scale: { x: 7, y: 7, z: 7 },
+    };
+  }
+
+  if (width <= 440) {
+    return {
+      position: { x: 2, y: -10, z: 0 },
+      rotation: { x: 0, y: -0.1 * Math.PI, z: 0 },
+      scale: { x: 8, y: 8, z: 8 },
+    };
+  }
+
+  if (width <= 768) {
+    return {
+      position: { x: 2, y: -10, z: 0 },
+      rotation: { x: 0, y: -0.1 * Math.PI, z: 0 },
+      scale: { x: 9, y: 9, z: 9 },
+    };
+  }
+
+  if (width <= 1024) {
+    return {
+      position: { x: 2, y: -10, z: 0 },
+      rotation: { x: 0, y: -0.1 * Math.PI, z: 0 },
+      scale: { x: 10, y: 10, z: 10 },
+    };
+  }
+
+  return {
+    position: { x: 2, y: -15, z: 0 },
+    rotation: { x: 0, y: -0.1 * Math.PI, z: 0 },
+    scale: { x: 11, y: 11, z: 11 },
+  };
+
+}
+
+export function getAtomQuantumModelResponsivePosition(width: number): objectThreePosition {
+  return {
+    position: calculateAtomPosition(width),
+    rotation: {x: 0, y: 0, z: 0},
+    scale: calculateAtomScale(width),
+  }
+}
+
+function calculateAtomPosition(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const atomX = Math.min((width-60) / 42, 26); // posizionamento orizzontale centrato, regolato dalla larghezza
+  const atomY = width < 270 ? 1 : 2; // posizione verticale (puoi regolarla per il livello della scrivania)
+  const atomZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
+
+  console.log("position of atom", atomX, atomY, atomZ);
+  return { x: -atomX, y: atomY, z: atomZ };
+}
+
+function calculateAtomScale(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const scale = Math.max(Math.min(width/300, 4), 1.75);
+  console.log("scale of atom", scale);
+  return { x: scale, y: scale, z: scale };
+}
+
+
+export function getThunderboltHPCModelResponsivePosition(width: number): objectThreePosition {
+  return {
+    position: calculateThunderboltPosition(width),
+    rotation: {x: Math.PI/2, y: Math.PI/2.2, z: 0},
+    scale: calculateThunderboltScale(width),
+  }
+}
+
+function calculateThunderboltPosition(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const atomX = Math.min((width-66) / 42, 28); // posizionamento orizzontale centrato, regolato dalla larghezza
+  const atomY = width<=440 ? 0.5 : -1.25; // posizione verticale (puoi regolarla per il livello della scrivania)
+  const atomZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
+
+  console.log("position of thunder", atomX, atomY, atomZ);
+  return { x: atomX, y: atomY, z: atomZ };
+}
+
+
+function calculateThunderboltScale(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const scaleX = 0.008*width+11.36;
+  const scaleY = 0.04*width+16.8;
+  const scaleZ = 0.0475*width+21.2;
+  console.log("scale of thunder", scaleX, scaleY, scaleZ);
+  return { x: scaleX, y: scaleY, z: scaleZ };
+}
+
+export function getJavaModelResponsivePosition(width: number): objectThreePosition {
+  return {
+    position: calculateJavaPosition(width),
+    rotation: {x: 0, y: 0, z: 0},
+    scale: calculateJavaScale(width),
+  }
+}
+
+function calculateJavaPosition(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const javaX = Math.min((width-66) / 42, 28); // posizionamento orizzontale centrato, regolato dalla larghezza
+  const javaY = width<=500 && width >= 250 ? -17.5 : -12.5; // posizione verticale (puoi regolarla per il livello della scrivania)
+  const javaZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
+
+  console.log("position of java cup", javaX, javaY, javaZ);
+  return { x: javaX, y: javaY, z: javaZ };
+}
+
+
+function calculateJavaScale(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const scale =width*0.0006+0.75;
+  console.log("scale of java", scale);
+  return { x: scale, y: scale, z: scale };
+}
+
+export function getBrainMLModelResponsivePosition(width: number): objectThreePosition {
+  return {
+    position: calculateBrainMLPosition(width),
+    rotation: {x: 0, y: Math.PI/3, z: 0},
+    scale: calculateBrainMLScale(width),
+  }
+}
+
+function calculateBrainMLPosition(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const javaX = Math.min((width-66) / 42, 28); // posizionamento orizzontale centrato, regolato dalla larghezza
+  const javaY = width<=500 && width >= 250 ? -17.5 : -12.5; // posizione verticale (puoi regolarla per il livello della scrivania)
+  const javaZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
+
+  console.log("position of java cup", javaX, javaY, javaZ);
+  return { x: -javaX, y: javaY, z: javaZ };
+}
+
+
+function calculateBrainMLScale(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const scale =width*0.0006+0.75;
+  console.log("scale of java", scale);
+  return { x: 0.01, y: 0.01, z: 0.01 };
+}
+
+export function getAngularModelResponsivePosition(width: number): objectThreePosition {
+  return {
+    position: calculateAngularPosition(width),
+    rotation: {x: 0, y: Math.PI, z: 0},
+    scale: calculateAngularScale(width),
+  }
+}
+
+function calculateAngularPosition(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const angularX = -1; // posizionamento orizzontale centrato, regolato dalla larghezza
+  const angularY = width<=500 && width >= 250 ? -31 : (width < 1000 ? -25 : -30); // posizione verticale (puoi regolarla per il livello della scrivania)
+
+  const angularZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
+
+  console.log("position of java cup", angularX, angularY, angularZ);
+  return { x: angularX, y: angularY, z: angularZ};
+}
+
+
+function calculateAngularScale(width: number):  { x: number; y: number , z: number } {
+
+  // Parametri per posizionare l'atomo in base alla finestra
+  const scale =4;
+  console.log("scale of java", scale);
+  return { x: scale, y: scale, z: scale };
+}

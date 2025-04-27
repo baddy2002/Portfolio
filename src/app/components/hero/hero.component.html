@@ -1,0 +1,80 @@
+<section class="min-h-screen w-full flex flex-col relative" id="home">
+  <!-- Contenuto principale -->
+  <div class="w-full mx-auto flex flex-col sm:mt-36 mt-24 c-space gap-3 z-10">
+    <p class="sm:text-3xl text-2xl text-center font-medium text-white font-generalsans">
+      Hi I'm Andrea Benassi<span class="waving-hand">👋</span>
+    </p>
+    <p class="hero_tag text-gray_gradient">
+      Building Products<br> & <br>Research Technologies
+    </p>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="loader-container">
+    <span class="canvas-loader"></span>
+    <p class="loader-text">
+      {{ modelsLoaded !== 0 ? ((modelsLoaded / totalModels * 100) | number :'1.0-0') + '%' : 'Loading...' }}
+    </p>
+  </div>
+
+  <!-- Canvas della scena 3D -->
+  <div class="w-full h-full absolute inset-0 ">
+    <div #canvasContainer class="relative w-full h-full"><canvas #canvas></canvas></div>
+    <app-three-hacker-room
+      (modelLoaded)="onChildModelLoaded()"
+      [modelProps]="modelHackerRoomProps"
+      [canvasContainer]="divContainer"
+      [scene]="scene"
+      [camera]="camera"
+      [renderer]="renderer"
+    ></app-three-hacker-room>
+
+
+      <app-atom-quantum
+        #quantumComponent
+        [scene]="scene"
+        [camera]="camera"
+        [renderer]="renderer"
+        [canvasContainer]="divContainer"
+        [modelProps]="modelAtomProps"
+        [electronCount]="4"
+        (modelLoaded)="onChildModelLoaded()"
+      ></app-atom-quantum>
+    <app-thunderbolt-hpc
+      [scene]="scene"
+      [camera]="camera"
+      [renderer]="renderer"
+      [canvasContainer]="divContainer"
+      [modelProps]="modelThunderboltProps"
+      (modelLoaded)="onChildModelLoaded()"
+    >
+    </app-thunderbolt-hpc>
+    <app-java-logo
+      [scene]="scene"
+      [camera]="camera"
+      [renderer]="renderer"
+      [canvasContainer]="divContainer"
+      [modelProps]="modelJavaProps"
+      (modelLoaded)="onChildModelLoaded()"
+    >
+    </app-java-logo>
+    <app-brain-ml
+      [scene]="scene"
+      [camera]="camera"
+      [renderer]="renderer"
+      [canvasContainer]="divContainer"
+      [modelProps]="modelBrainProps"
+      (modelLoaded)="onChildModelLoaded()"
+    >
+    </app-brain-ml>
+    <app-angular-logo
+      [scene]="scene"
+      [camera]="camera"
+      [renderer]="renderer"
+      [canvasContainer]="divContainer"
+      [modelProps]="modelAngularProps"
+      (modelLoaded)="onChildModelLoaded()"
+    >
+    </app-angular-logo>
+  </div>
+</section>

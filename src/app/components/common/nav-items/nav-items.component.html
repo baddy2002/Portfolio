@@ -1,0 +1,5 @@
+<ul class="nav-ul">
+  <li *ngFor="let item of navItems" class="nav-li">
+    <a [routerLink]="[]" [fragment]="item.path" class="nav-li_a">{{ item.label }}</a>
+  </li>
+</ul>
