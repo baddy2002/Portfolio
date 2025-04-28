@@ -5,10 +5,7 @@ import {
 
 } from '@angular/core';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {setupCinematicLighting} from '../../utils/lighting.util';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import {objectThreePosition} from '../../models/types/objectThreePosition';
 import {loadModelWithDraco} from '../../utils/three-model-loader.util';
 
@@ -55,6 +52,7 @@ export class ThreeHackerRoomComponent implements AfterViewInit {
     window.addEventListener('resize', () => {
 
       this.renderer.setSize(this.canvasContainer.clientWidth, this.canvasContainer.clientHeight);
+      this.renderer.setPixelRatio(window.devicePixelRatio);
       this.camera.aspect = this.canvasContainer.clientWidth / this.canvasContainer.clientHeight;
       this.camera.updateProjectionMatrix();
 
@@ -109,6 +107,7 @@ export class ThreeHackerRoomComponent implements AfterViewInit {
         this.rotationVelocity.y *= this.dampingFactor;
       }
 
+      this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.render(this.scene, this.camera);
     };
     animateControls();
