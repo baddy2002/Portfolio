@@ -149,7 +149,7 @@ export function getBrainMLModelResponsivePosition(width: number): objectThreePos
 function calculateBrainMLPosition(width: number):  { x: number; y: number , z: number } {
 
   // Parametri per posizionare l'atomo in base alla finestra
-  const javaX = Math.min((width-60) / 42, 26); // posizionamento orizzontale centrato, regolato dalla larghezza
+  const javaX = Math.min((width-60) / 42, 24); // posizionamento orizzontale centrato, regolato dalla larghezza
   const javaY = width<=500 && width >= 230 ? -20 : -12.5; // posizione verticale (puoi regolarla per il livello della scrivania)
   const javaZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
 
