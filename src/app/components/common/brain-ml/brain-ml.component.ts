@@ -25,6 +25,13 @@ export class BrainMlComponent implements AfterViewInit {
 
     const model = await loadModelWithDraco(this.modelProps, '/models/brain.glb');
     model.layers.set(0);
+    const modelGroup = new THREE.Group();
+    modelGroup.add(model);
+    modelGroup.traverse((child: THREE.Object3D) => {
+      child.userData = {
+        url: 'https://baddy2002.github.io/AI/',
+      }
+    })
     this.scene.add(model);
     this.modelLoaded.emit();
 

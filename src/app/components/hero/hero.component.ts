@@ -52,6 +52,7 @@ export class HeroComponent implements OnInit, AfterViewInit {
   camera!: THREE.PerspectiveCamera;
   renderer!: THREE.WebGLRenderer;
   divContainer!: HTMLDivElement;
+  private clock = new THREE.Clock();
 
   ngOnInit() {
     this.initThree();
@@ -102,7 +103,9 @@ export class HeroComponent implements OnInit, AfterViewInit {
 
   animate() {
     requestAnimationFrame(() => this.animate());
-    this.atomComponent?.tick(); // chiama il tick del componente
+
+    const delta = this.clock.getDelta()*50; // tempo in secondi dall'ultimo frame
+    this.atomComponent?.tick(delta); // chiama il tick del componente
     this.renderer.render(this.scene, this.camera);
   }
 

@@ -53,6 +53,11 @@ export class ThunderboltHpcComponent implements AfterViewInit {
     });
 
     modelGroup.add(model);
+    modelGroup.traverse((child) => {
+      child.userData = {
+        url: 'https://baddy2002.github.io/Cuda/'
+      }
+    });
     this.scene.add(modelGroup);
     this.modelLoaded.emit();
 

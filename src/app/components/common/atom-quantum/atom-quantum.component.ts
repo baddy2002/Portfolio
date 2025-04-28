@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import * as THREE from 'three';
 import {objectThreePosition} from '../../../models/types/objectThreePosition';
+import {onMouseClick} from '../../../utils/responsive-position.util';
 
 @Component({
   selector: 'app-atom-quantum',
@@ -29,6 +30,8 @@ export class AtomQuantumComponent implements AfterViewInit {
   private atomGroup!: THREE.Group;
   private electronGroups: THREE.Group[] = [];
   private loadedModel: THREE.Object3D | null = null;
+  private raycaster = new THREE.Raycaster();
+  private mouse = new THREE.Vector2();
 
   ngAfterViewInit(): void {
 
@@ -39,19 +42,23 @@ export class AtomQuantumComponent implements AfterViewInit {
       new THREE.MeshStandardMaterial({ color: this.nucleusColor })
     );
     this.atomGroup.add(nucleus);
-    const fixedRotations = [
+    /*const fixedRotations = [
       new THREE.Euler(0, 0, 0),
       new THREE.Euler(Math.PI / 3, 0, 0),
       new THREE.Euler(0, Math.PI / 3, 0),
       new THREE.Euler(0, 0, Math.PI / 3),
-    ];
+    ];*/
     //aggiungi elettroni e orbite
     for (let i = 0; i < Math.min(this.electronCount, 4); i++) {
       const radius = 0.5;
 
       //gruppo orbitale con orbite distribuite
       const orbitGroup = new THREE.Group();
-      orbitGroup.rotation.copy(fixedRotations[i % fixedRotations.length]);
+      orbitGroup.rotation.set(
+        Math.PI / 4 * (i % 2), // 0 o π/4
+        Math.PI / 2 * (i % 4) / 4, // 0, π/8, π/4, 3π/8
+        Math.PI / 3 * (i % 3) / 3  // 0, π/9, 2π/9
+      );
 
       const orbit = new THREE.RingGeometry(radius, radius + 0.015, 64);
       const orbitMaterial = new THREE.MeshBasicMaterial({
@@ -91,7 +98,11 @@ export class AtomQuantumComponent implements AfterViewInit {
 
     //finisce il caricamento su hero
     this.modelLoaded.emit();
-
+    this.atomGroup.traverse((child) =>{
+      child.userData = {
+        url:  'https://baddy2002.github.io/Quantum/'
+      };
+    });
     this.scene.add(this.atomGroup);
     //per aggiornare se necessario in caso di resize
     this.loadedModel=this.atomGroup;
@@ -107,15 +118,17 @@ export class AtomQuantumComponent implements AfterViewInit {
         this.loadedModel.scale.set(this.modelProps.scale.x, this.modelProps.scale.y, this.modelProps.scale.z);
       }
     });
+    this.renderer.domElement.addEventListener('click', (event) => onMouseClick(event, this.mouse, this.raycaster, this.renderer, this.scene, this.camera));
+
   }
 
-  public tick(): void {
+  public tick(delta: number): void {
     // Ruota l’atomo
-    this.atomGroup.rotation.y += 0.005;
+    this.atomGroup.rotation.y += 0.005*delta;
 
     // Ruota gli elettroni
     for (const group of this.electronGroups) {
-      group.rotation.z += 0.05;
+      group.rotation.z += 0.05*delta;
     }
   }
 

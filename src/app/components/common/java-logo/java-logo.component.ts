@@ -25,6 +25,15 @@ export class JavaLogoComponent implements AfterViewInit {
 
     const model = await loadModelWithDraco(this.modelProps, '/models/java.glb');
     model.layers.set(0);
+    model.layers.mask =0;
+    const modelGroup = new THREE.Group();
+    modelGroup.add(model);
+    modelGroup.traverse((child) => {
+      child.userData = {
+        url: 'https://baddy2002.github.io/FullStack/'
+      }
+    });
+
     this.scene.add(model);
     this.modelLoaded.emit();
 

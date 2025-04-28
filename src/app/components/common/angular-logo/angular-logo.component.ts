@@ -54,6 +54,9 @@ export class AngularLogoComponent implements AfterViewInit {
     this.modelGroup.traverse((child) => {
       child.layers.set(1); // Assicurati che anche la scritta sia nel layer 1
       child.layers.mask=1;
+      child.userData = {
+        url:  'https://baddy2002.github.io/WebDesign/'
+      };
     });
     this.camera.layers.enable(0);
     this.camera.layers.enable(1);

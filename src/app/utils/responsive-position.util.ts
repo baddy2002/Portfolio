@@ -1,4 +1,5 @@
 import {objectThreePosition} from '../models/types/objectThreePosition';
+import {PerspectiveCamera, Raycaster, Scene, Vector2, WebGLRenderer} from 'three';
 
 export function getHackerRoomModelResponsivePosition(width: number): objectThreePosition {
   if (width <= 230) {
@@ -210,4 +211,30 @@ function calculateAngularScale(width: number):  { x: number; y: number , z: numb
   return {
     x: 3, y: 3, z: 3
   };
+}
+
+
+
+export function onMouseClick(event: MouseEvent,
+                             mouse: Vector2, raycaster: Raycaster,
+                             renderer: WebGLRenderer, scene: Scene,
+                             camera : PerspectiveCamera
+): void {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = - ((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(scene.children, true); // true = cerca anche nei figli
+
+  if (intersects.length > 0) {
+  const objectClicked = intersects[0].object;
+    console.log('Object user data:', objectClicked);
+  // Qui puoi decidere
+    if (objectClicked.userData?.['url']) {
+      console.log('Redirect to:', objectClicked.userData?.['url']);
+      window.location.href = objectClicked.userData['url'];
+    }
+}
 }
