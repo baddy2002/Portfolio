@@ -24,7 +24,7 @@ export class ThunderboltHpcComponent implements AfterViewInit {
   async ngAfterViewInit() {
 
     const model = await loadModelWithDraco(this.modelProps, '/models/thunderbolt.glb');
-
+    model.layers.set(0);
     // Calcola il centro del bounding box per posizionare la luce vicino al modello
     const bbox = new THREE.Box3().setFromObject(model);
     const center = new THREE.Vector3();

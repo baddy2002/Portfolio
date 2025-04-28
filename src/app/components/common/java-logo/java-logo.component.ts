@@ -24,6 +24,7 @@ export class JavaLogoComponent implements AfterViewInit {
   async ngAfterViewInit() {
 
     const model = await loadModelWithDraco(this.modelProps, '/models/java.glb');
+    model.layers.set(0);
     this.scene.add(model);
     this.modelLoaded.emit();
 

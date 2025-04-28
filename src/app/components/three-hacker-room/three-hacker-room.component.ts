@@ -62,6 +62,8 @@ export class ThreeHackerRoomComponent implements AfterViewInit {
 
     const model = await loadModelWithDraco(this.modelProps, '/models/laptop-desk.glb');
     this.loadedModel = model;
+    model.layers.set(0);
+    model.layers.mask=0;
     this.scene.add(model);
     this.modelLoaded.emit();
 

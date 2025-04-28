@@ -85,8 +85,13 @@ export class AtomQuantumComponent implements AfterViewInit {
     this.atomGroup.scale.set(this.modelProps.scale.x, this.modelProps.scale.y, this.modelProps.scale.z);
     this.atomGroup.position.set(this.modelProps.position.x, this.modelProps.position.y, this.modelProps.position.z);
 
+    this.atomGroup.traverse((child) => {
+      child.layers.set(0);
+    });
+
     //finisce il caricamento su hero
     this.modelLoaded.emit();
+
     this.scene.add(this.atomGroup);
     //per aggiornare se necessario in caso di resize
     this.loadedModel=this.atomGroup;
