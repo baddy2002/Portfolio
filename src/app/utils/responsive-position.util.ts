@@ -148,13 +148,13 @@ function calculateBrainMLPosition(width: number):  { x: number; y: number , z: n
   const javaZ = 0; // posizione Z (non interessata, ma se vuoi puoi regolarla)
 
   console.log("position of brain ml", javaX, javaY, javaZ);
-  return { x: -javaX+0.002*width, y: javaY, z: javaZ };
+  return { x: -javaX+0.00133*width, y: javaY+1, z: javaZ };
 }
 
 function calculateBrainMLScale(width: number):  { x: number; y: number , z: number } {
 
   // Parametri per posizionare l'atomo in base alla finestra
-  const scale = width*0.000009+0.0045;
+  const scale = width*0.0000075+0.0045;
   console.log("scale of brain", scale);
   return { x: scale, y: scale, z: scale };
 
