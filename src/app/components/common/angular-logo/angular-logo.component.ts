@@ -22,7 +22,7 @@ export class AngularLogoComponent implements AfterViewInit {
   private loadedModel: THREE.Object3D | null = null;
   private modelGroup!: THREE.Group;
   private glowLight: THREE.PointLight = new THREE.PointLight(0xff0000, 99, 0);
-  private lightHelper: THREE.PointLightHelper = new THREE.PointLightHelper(this.glowLight, 1, 0xee82ee); // 0.1 raggio piccolo;
+  //private lightHelper: THREE.PointLightHelper = new THREE.PointLightHelper(this.glowLight, 1, 0xee82ee); // 0.1 raggio piccolo;
 
   async ngAfterViewInit() {
 
@@ -73,9 +73,9 @@ export class AngularLogoComponent implements AfterViewInit {
 
      const lightPosition = this.positionateLights(model);
     this.glowLight.position.copy(lightPosition);
-    this.lightHelper = new THREE.PointLightHelper(this.glowLight, 1, 0xee82ee);
+    //this.lightHelper = new THREE.PointLightHelper(this.glowLight, 1, 0xee82ee);
     this.modelGroup.add(this.glowLight);
-    this.modelGroup.add(this.lightHelper);
+    //this.modelGroup.add(this.lightHelper);
 
   }
 
