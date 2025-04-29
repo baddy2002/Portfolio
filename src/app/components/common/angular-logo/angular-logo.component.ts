@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import {loadModelWithDraco} from '../../../utils/three-model-loader.util';
 import {Group, Vector3} from 'three';
 import {AnimationState} from '../../../models/types/animationState';
-import {animateBounce} from '../../../utils/animation.util';
+import {animateBounce, animateJump} from '../../../utils/animation.util';
 
 @Component({
   selector: 'app-angular-logo',
@@ -30,8 +30,6 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
   private bounceDamping = 0.6;
   private animationFrameId: number | null = null;
   private modelBottomOffset = 0;
-  private rotationVelocity = new THREE.Vector3(0, 0, 0);
-  private initialRotation = new THREE.Euler();
   private initialPositionY = 0;
   private animationState!: AnimationState;
   private hoverTimeout: any = null;
@@ -74,18 +72,17 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.modelGroup = modelGroup;
 
-    if(this.canvasContainer.clientWidth>230)
+    if (this.canvasContainer.clientWidth > 230)
       this.addLights(model);
 
     //salva dati iniziali
-    this.initialRotation.copy(model.rotation);
     this.initialPositionY = model.position.y;
 
     this.modelGroup.traverse((child) => {
       child.layers.set(1); // Assicurati che anche la scritta sia nel layer 1
-      child.layers.mask=1;
+      child.layers.mask = 1;
       child.userData = {
-        url:  'https://baddy2002.github.io/WebDesign/'
+        url: 'https://baddy2002.github.io/WebDesign/'
       };
     });
     this.camera.layers.enable(0);
@@ -96,33 +93,29 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scene.add(this.modelGroup);
     this.modelLoaded.emit();
 
-
     //riscala su cordinate globali
-    this.modelBottomOffset =  model.position.y+6;
+    this.modelBottomOffset = model.position.y+8;
     this.notifyChangesOnResize(model);
-
 
     // Listener mouse over
     this.canvasContainer.addEventListener('pointermove', this.handlePointerMove);
 
     // Avvia animazione
-    animateBounce(
+    animateJump(
       model,
       this.modelProps,
       this.animationState,
       this.gravity,
       this.bounceDamping,
-      this.rotationVelocity,
       this.modelBottomOffset,
-      this.initialRotation,
       this.initialPositionY
     );
 
   }
 
-  addLights(model: Group)  {
+  addLights(model: Group) {
 
-     const lightPosition = this.positionateLights(model);
+    const lightPosition = this.positionateLights(model);
     this.glowLight.position.copy(lightPosition);
     //this.lightHelper = new THREE.PointLightHelper(this.glowLight, 1, 0xee82ee);
     this.modelGroup.add(this.glowLight);
@@ -130,15 +123,15 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  positionateLights(model: Group):Vector3 {
+  positionateLights(model: Group): Vector3 {
     // Calcola bounding box e centro
     const bbox = new THREE.Box3().setFromObject(model);
     const center = new THREE.Vector3();
     bbox.getCenter(center);
     console.log('Center of model:', center);
 
-    const lightOffset = new THREE.Vector3(model.position.x, 3, model.position.z*-1+6);
-    const lightPosition =  new THREE.Vector3().addVectors(center, lightOffset);
+    const lightOffset = new THREE.Vector3(model.position.x, 3, model.position.z * -1 + 6);
+    const lightPosition = new THREE.Vector3().addVectors(center, lightOffset);
     console.log('Computed light position:', lightPosition);
     return lightPosition;
   }
@@ -158,7 +151,7 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
         // Applica i cambiamenti direttamente al modelGroup
         model.scale.set(this.modelProps.scale.x, this.modelProps.scale.y, this.modelProps.scale.z);
         model.position.set(this.modelProps.position.x, this.modelProps.position.y, this.modelProps.position.z);
-        if(this.canvasContainer.clientWidth>230)
+        if (this.canvasContainer.clientWidth > 230)
           this.addLights(model);
 
       }
@@ -190,12 +183,7 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       document.body.style.cursor = 'pointer';
       this.animationState.isHovered = true;
-      this.animationState.bounceVelocity = 1.5;
-      this.rotationVelocity.set(
-        (Math.random() - 0.3) * 0.9,
-        (Math.random() - 0.3) * 0.9,
-        (Math.random() - 0.3) * 0.9
-      );
+      this.animationState.bounceVelocity = 0.5;
       clearTimeout(this.hoverTimeout);
       this.hoverTimeout = setTimeout(() => {
         this.animationState.isHovered = false;
@@ -222,6 +210,5 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.canvasContainer.removeEventListener('pointermove', this.handlePointerMove);
   }
-
 
 }

@@ -2,7 +2,7 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  Input, Output, EventEmitter,
+  Input, Output, EventEmitter, OnDestroy,
 } from '@angular/core';
 import * as THREE from 'three';
 import {objectThreePosition} from '../../../models/types/objectThreePosition';
@@ -15,7 +15,7 @@ import {animateBounce} from '../../../utils/animation.util';
   templateUrl: './atom-quantum.component.html',
   styleUrls: ['./atom-quantum.component.css'],
 })
-export class AtomQuantumComponent implements AfterViewInit {
+export class AtomQuantumComponent implements AfterViewInit, OnDestroy {
 
   @Output() modelLoaded = new EventEmitter<void>();
 

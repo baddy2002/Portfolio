@@ -45,3 +45,35 @@ export const animateBounce = (
   }
 };
 
+export const animateJump = (
+  modelGroup: THREE.Group,
+  modelProps: any,
+  state: AnimationState,
+  gravity: number,
+  bounceDamping: number,
+  modelBottomOffset: number,
+  initialPositionY: number
+) => {
+  requestAnimationFrame(() => animateJump(modelGroup, modelProps, state, gravity, bounceDamping, modelBottomOffset, initialPositionY));
+
+  if (!modelGroup) return;
+
+  if (state.isHovered || state.bounceVelocity !== 0) {
+    state.bounceVelocity += gravity;
+    modelGroup.position.y += state.bounceVelocity;
+
+    const currentBottomY = modelGroup.position.y + modelBottomOffset;
+    if (currentBottomY <= modelProps.position.y) {
+      modelGroup.position.y = modelProps.position.y - modelBottomOffset;
+      state.bounceVelocity = -state.bounceVelocity * bounceDamping;
+
+
+      if (Math.abs(state.bounceVelocity) < 0.01) {
+        state.bounceVelocity = 0;
+        state.isHovered = false;
+
+        modelGroup.position.y = initialPositionY;
+      }
+    }
+  }
+};
