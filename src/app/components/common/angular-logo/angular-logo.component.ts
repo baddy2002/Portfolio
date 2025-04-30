@@ -33,7 +33,7 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
   private initialPositionY = 0;
   private animationState!: AnimationState;
   private hoverTimeout: any = null;
-  private hoverDuration = 1000; // tempo in ms che il modello resta "hovered"
+  private hoverDuration = 2000; // tempo in ms che il modello resta "hovered"
 
   ngOnInit() {
     this.animationState = {
@@ -88,13 +88,12 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.camera.layers.enable(0);
     this.camera.layers.enable(1);
 
-    console.log('Camera position:', this.camera.position);
 
     this.scene.add(this.modelGroup);
     this.modelLoaded.emit();
 
     //riscala su cordinate globali
-    this.modelBottomOffset = model.position.y+8;
+    this.modelBottomOffset = model.position.y+Math.min(window.innerWidth, 1400)/100;
     this.notifyChangesOnResize(model);
 
     // Listener mouse over
@@ -196,7 +195,6 @@ export class AngularLogoComponent implements OnInit, AfterViewInit, OnDestroy {
     let isPresent = false;
     this.modelGroup.traverse((child: THREE.Object3D) => {
       if (child.id === this.modelGroup.id) {
-        console.log("present in angular group");
         isPresent = true;
       }
     });

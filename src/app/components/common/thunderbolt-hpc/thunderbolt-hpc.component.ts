@@ -33,7 +33,7 @@ export class ThunderboltHpcComponent implements AfterViewInit, OnDestroy {
   private initialPositionY = 0;
   private animationState!: AnimationState;
   private hoverTimeout: any = null;
-  private hoverDuration = 1000; // tempo in ms che il modello resta "hovered"
+  private hoverDuration = 2000; // tempo in ms che il modello resta "hovered"
 
 
   async ngAfterViewInit() {
